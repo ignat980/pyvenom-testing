@@ -1,5 +1,4 @@
 import cgi
-from wsgiref.util import setup_testing_defaults
 
 
 def application(environ, start_response):
