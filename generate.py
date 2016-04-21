@@ -16,7 +16,7 @@ def main():
     handler.run(application)
 
 
-def make_environ(path='/', port='8000', command='GET', remote_host='', remote_addr='127.0.0.1',
+def make_environ(path='/', port='8000', method='GET', remote_host='', remote_addr='127.0.0.1',
                  headers={}):
     defualt_headers = {
         'content-type': 'text/plain',
@@ -28,7 +28,7 @@ def make_environ(path='/', port='8000', command='GET', remote_host='', remote_ad
         'connection': 'keep-alive',
         'dnt': '1',
         'upgrade-insecure-requests': '1',
-        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.75 Safari/537.36'
+        'user-agent': 'Mozilla/5.0 PyVenom/1.0 (Macintosh; OS X/10.10.5) PyVenomTestKit'
     }
     for h in headers:
         defualt_headers[h] = headers[h]
@@ -41,10 +41,9 @@ def make_environ(path='/', port='8000', command='GET', remote_host='', remote_ad
     env['SERVER_PROTOCOL'] = 'HTTP/1.1'
     env['GATEWAY_INTERFACE'] = 'CGI/1.1'
     env['SERVER_SOFTWARE'] = server_version + ' Python/' + '.'.join(map(str, sys.version_info[:3]))
-    env['REMOTE_HOST'] = ''
     env['CONTENT_LENGTH'] = ''
     env['SCRIPT_NAME'] = ''
-    env['REQUEST_METHOD'] = command.upper()
+    env['REQUEST_METHOD'] = method.upper()
     if '?' in path:
         path, query = path.split('?', 1)
     else:
@@ -56,12 +55,8 @@ def make_environ(path='/', port='8000', command='GET', remote_host='', remote_ad
     env['REMOTE_ADDR'] = remote_addr
     env['CONTENT_TYPE'] = defualt_headers['content-type']
     env['CONTENT_LENGTH'] = defualt_headers['content-length']
-# 	'/Users/ignat'
 
-# HTTP_
-# HTTP_'
-    for k in defualt_headers:
-        v = defualt_headers[k]
+    for k, v in defualt_headers.items():
         k = k.replace('-', '_').upper()
         v = v.strip()
         if k in env:
@@ -76,3 +71,4 @@ def make_environ(path='/', port='8000', command='GET', remote_host='', remote_ad
 if __name__ == '__main__':
     # main()
     print(make_environ())
+    make_environ(path='/', port='8000', method='GET', remote_host='', remote_addr='127.0.0.1', headers={})
